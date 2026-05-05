@@ -1,6 +1,153 @@
 ---
 import "../styles/global.css";
 import Navigation from "../components/Navigation.astro";
+import GenesisLoader from "../components/GenesisLoader.astro";
+import Dock from "../components/Dock.astro";
+import Window from "../components/Window.astro";
 ---
 
-<Navigation />
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>CEO OS</title>
+  </head>
+  <body class="bg-black overflow-hidden h-screen w-screen font-sans text-white">
+
+    <!-- The Loader Overlay (Handles its own removal) -->
+    <GenesisLoader />
+
+    <!-- CEO OS Environment (Revealed underneath) -->
+    <div id="os-environment" class="absolute inset-0 w-full h-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');">
+      <!-- Dark overlay for better contrast -->
+      <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+
+      <!-- Top Menu Bar -->
+      <div class="absolute top-0 left-0 w-full h-7 bg-black/40 backdrop-blur-md flex items-center justify-between px-4 text-xs font-medium z-40 border-b border-white/10">
+        <div class="flex items-center gap-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+          </svg>
+          <span class="font-bold cursor-pointer hover:text-white">CEO OS</span>
+          <span class="cursor-pointer text-gray-300 hover:text-white">File</span>
+          <span class="cursor-pointer text-gray-300 hover:text-white">Edit</span>
+          <span class="cursor-pointer text-gray-300 hover:text-white">View</span>
+          <span class="cursor-pointer text-gray-300 hover:text-white">Window</span>
+          <span class="cursor-pointer text-gray-300 hover:text-white">Help</span>
+        </div>
+        <div class="flex items-center gap-4 text-gray-300">
+          <span>100%</span>
+          <span id="os-clock">Mon 10:00 AM</span>
+        </div>
+      </div>
+
+      <!-- Navigation Component (Hidden or placed somewhere useful) -->
+      <div class="absolute top-10 right-4 z-40 bg-black/50 p-2 rounded-lg backdrop-blur-md">
+        <Navigation />
+      </div>
+
+      <!-- OS Windows -->
+      <Window id="window-finder" title="Files" initialX={100} initialY={100} width="600px" height="400px" hidden={false}>
+        <div class="flex h-full">
+          <div class="w-1/4 border-r border-white/10 pr-4">
+            <ul class="space-y-2 text-sm text-gray-300">
+              <li class="font-bold text-white mb-2">Favorites</li>
+              <li class="pl-2 py-1 rounded bg-blue-500/20 text-blue-300 cursor-pointer">Desktop</li>
+              <li class="pl-2 py-1 rounded hover:bg-white/5 cursor-pointer">Documents</li>
+              <li class="pl-2 py-1 rounded hover:bg-white/5 cursor-pointer">Downloads</li>
+            </ul>
+          </div>
+          <div class="w-3/4 pl-4 grid grid-cols-4 gap-4 content-start">
+            <!-- File icons -->
+            <div class="flex flex-col items-center gap-1 cursor-pointer group">
+              <div class="w-12 h-12 bg-blue-500/20 rounded border border-blue-500/50 flex items-center justify-center group-hover:bg-blue-500/40">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+              </div>
+              <span class="text-xs text-center break-words w-full">Q3_Report.pdf</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 cursor-pointer group">
+              <div class="w-12 h-12 bg-yellow-500/20 rounded border border-yellow-500/50 flex items-center justify-center group-hover:bg-yellow-500/40">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
+              </div>
+              <span class="text-xs text-center break-words w-full">Assets</span>
+            </div>
+          </div>
+        </div>
+      </Window>
+
+      <Window id="window-terminal" title="Terminal - bash - 80x24" initialX={200} initialY={150} width="500px" height="350px">
+        <div class="font-mono text-sm text-green-400 h-full flex flex-col">
+          <div>Last login: Mon Oct 23 10:00:00 on console</div>
+          <div class="mt-2 text-gray-300">root@ceo-system:~# ./initialize_core.sh</div>
+          <div class="mt-1 text-yellow-300">[OK] Core modules loaded.</div>
+          <div class="mt-1 text-yellow-300">[OK] Neural network synced.</div>
+          <div class="mt-2 text-gray-300 flex">
+            <span>root@ceo-system:~#&nbsp;</span>
+            <span class="w-2 h-4 bg-gray-300 animate-pulse"></span>
+          </div>
+        </div>
+      </Window>
+
+      <Window id="window-metrics" title="System Metrics" initialX={750} initialY={100} width="400px" height="300px">
+        <div class="flex flex-col gap-4">
+          <div class="p-4 bg-white/5 rounded-lg border border-white/10">
+            <div class="text-sm text-gray-400 mb-1">Global Revenue</div>
+            <div class="text-3xl font-bold text-green-400">$4.2M <span class="text-sm text-green-600">▲ 12%</span></div>
+          </div>
+          <div class="p-4 bg-white/5 rounded-lg border border-white/10">
+            <div class="text-sm text-gray-400 mb-1">Server Load</div>
+            <div class="w-full bg-gray-800 rounded-full h-2.5 mt-2">
+              <div class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
+            </div>
+            <div class="text-right text-xs mt-1 text-gray-400">45% Capacity</div>
+          </div>
+        </div>
+      </Window>
+
+      <Window id="window-settings" title="System Settings" initialX={300} initialY={250} width="450px" height="400px">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+            <div>
+              <div class="font-medium">Dark Mode</div>
+              <div class="text-xs text-gray-400">Enable system-wide dark appearance</div>
+            </div>
+            <div class="w-10 h-6 bg-blue-500 rounded-full relative cursor-pointer">
+              <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg opacity-50 cursor-not-allowed">
+            <div>
+              <div class="font-medium">Quantum Processing</div>
+              <div class="text-xs text-gray-400">Requires level 2 clearance</div>
+            </div>
+            <div class="w-10 h-6 bg-gray-600 rounded-full relative">
+              <div class="absolute left-1 top-1 w-4 h-4 bg-gray-400 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      </Window>
+
+      <!-- Dock Menu -->
+      <Dock />
+
+    </div>
+
+  </body>
+</html>
+
+<script>
+  // Update clock
+  function updateClock() {
+    const clockEl = document.getElementById('os-clock');
+    if (clockEl) {
+      const now = new Date();
+      const options: Intl.DateTimeFormatOptions = { weekday: 'short', hour: 'numeric', minute: '2-digit' };
+      clockEl.textContent = now.toLocaleDateString('en-US', options).replace(',', '');
+    }
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
