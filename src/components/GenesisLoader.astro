@@ -1,0 +1,203 @@
+---
+---
+
+<div id="genesisVoid" class="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden">
+
+  <!-- The Ripple Overlay -->
+  <div id="colorRipple" class="fixed top-1/2 left-1/2 rounded-full pointer-events-none opacity-0 mix-blend-screen"
+       style="width: 250vw; height: 250vw; background: radial-gradient(circle, #ffffff 0%, #ffaa00 10%, #8a2be2 30%, #0000ff 50%, transparent 80%); transform: translate(-50%, -50%) scale(0); will-change: transform, opacity;">
+  </div>
+
+  <!-- The Macro-Layer -->
+  <div id="macroCosmos" class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none" style="transform: scale(0); will-change: transform, opacity;">
+    <svg viewBox="0 0 800 800" class="w-full h-full max-w-5xl absolute opacity-60">
+      <!-- Orbits -->
+      <circle cx="400" cy="400" r="120" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+      <circle cx="400" cy="400" r="220" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+      <circle cx="400" cy="400" r="320" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+
+      <!-- Planets -->
+      <circle cx="520" cy="400" r="12" fill="#4facfe" style="filter: drop-shadow(0 0 10px #4facfe);" />
+      <circle cx="250" cy="240" r="20" fill="#f093fb" style="filter: drop-shadow(0 0 15px #f093fb);" />
+      <circle cx="680" cy="550" r="8" fill="#fdfbfb" style="filter: drop-shadow(0 0 8px #fdfbfb);" />
+
+      <!-- Central Star -->
+      <circle cx="400" cy="400" r="40" fill="url(#star-grad)" style="filter: drop-shadow(0 0 30px #ffdd00);" />
+
+      <defs>
+        <radialGradient id="star-grad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="40%" stop-color="#ffdd00"/>
+          <stop offset="100%" stop-color="#ff8800"/>
+        </radialGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- The Micro-Layer -->
+  <div id="atomContainer" class="relative z-10 cursor-pointer flex flex-col items-center group">
+    <div id="microLayer" class="relative w-64 h-64 flex items-center justify-center" style="perspective: 1200px; transform-style: preserve-3d; will-change: transform;">
+
+      <!-- Nucleus -->
+      <div id="singularity" class="absolute w-8 h-8 bg-blue-400 rounded-full z-10" style="box-shadow: 0 0 25px 5px rgba(96, 165, 250, 0.8); will-change: transform, background-color, box-shadow;"></div>
+
+      <!-- Orbits -->
+      <div id="orbits-container" class="absolute inset-0" style="transform-style: preserve-3d;">
+        <div class="orbit orbit-1">
+          <div class="electron-carrier duration-3"><div class="electron"></div></div>
+        </div>
+        <div class="orbit orbit-2">
+          <div class="electron-carrier duration-4 reverse"><div class="electron"></div></div>
+        </div>
+        <div class="orbit orbit-3">
+          <div class="electron-carrier duration-5"><div class="electron"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="clickPrompt" class="text-white text-xl font-light tracking-widest mt-12 opacity-0 transition-opacity duration-300 group-hover:text-blue-300 group-hover:drop-shadow-[0_0_8px_rgba(147,197,253,0.8)]">
+      Click Me!
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .orbit {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    box-sizing: border-box;
+  }
+  .orbit-1 { transform: rotateZ(0deg) rotateX(75deg); }
+  .orbit-2 { transform: rotateZ(60deg) rotateX(75deg); }
+  .orbit-3 { transform: rotateZ(120deg) rotateX(75deg); }
+
+  .electron-carrier {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    animation: orbit-spin linear infinite;
+  }
+  .duration-3 { animation-duration: 3s; }
+  .duration-4 { animation-duration: 4s; }
+  .duration-5 { animation-duration: 5s; }
+  .reverse { animation-direction: reverse; }
+
+  .electron {
+    position: absolute;
+    top: -6px;
+    left: calc(50% - 6px);
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 12px 2px rgba(255, 255, 255, 0.9);
+  }
+
+  @keyframes orbit-spin {
+    0% { transform: rotateZ(0deg); }
+    100% { transform: rotateZ(360deg); }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById('atomContainer');
+    const voidLayer = document.getElementById('genesisVoid');
+    const prompt = document.getElementById('clickPrompt');
+    const carriers = document.querySelectorAll('.electron-carrier');
+
+    // Fade in prompt
+    setTimeout(() => {
+      gsap.to(prompt, { opacity: 1, duration: 2, ease: "power2.inOut" });
+    }, 1500);
+
+    container.addEventListener('click', () => {
+      // Prevent double clicks
+      container.style.pointerEvents = 'none';
+
+      const tl = gsap.timeline();
+
+      // Pause CSS animations to let GSAP take over or just speed them up visually by shrinking the orbits
+      // A fun trick is just scaling the orbits down and making the nucleus eat them
+
+      tl.to(".orbit", {
+        scale: 0.05,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.in",
+        stagger: 0.15
+      }, "collapse");
+
+      tl.to(prompt, {
+        opacity: 0,
+        duration: 0.5
+      }, "collapse");
+
+      // The Singularity Event
+      // Nucleus flares white and scales up slightly
+      tl.to("#singularity", {
+        backgroundColor: "#ffffff",
+        boxShadow: "0 0 80px 30px #ffffff",
+        scale: 1.8,
+        duration: 1,
+        ease: "power2.inOut"
+      }, "collapse+=0.5");
+
+      // Shrinks to pinpoint
+      tl.to("#singularity", {
+        scale: 0,
+        duration: 0.4,
+        ease: "back.in(2)"
+      });
+
+      // The Big Bang & 4D Ripple
+      tl.to("#colorRipple", {
+        opacity: 1,
+        duration: 0.1
+      }, "bang");
+
+      tl.fromTo("#colorRipple",
+        { scale: 0 },
+        {
+          scale: 2.5, // Will grow to 2.5 * 250vw
+          duration: 2,
+          ease: "power4.out"
+        },
+        "bang"
+      );
+
+      tl.to("#colorRipple", {
+        opacity: 0,
+        duration: 2,
+        ease: "power2.inOut"
+      }, "bang+=0.8");
+
+      // The Celestial Reveal
+      tl.to("#macroCosmos", {
+        opacity: 1,
+        scale: 1,
+        duration: 2.5,
+        ease: "back.out(1.2)"
+      }, "bang+=0.4");
+
+      // Reveal "CEO OS" beneath by fading out the void
+      tl.to(voidLayer, {
+        opacity: 0,
+        duration: 2,
+        ease: "power2.inOut",
+        onComplete: () => {
+          voidLayer.style.display = "none";
+        }
+      }, "bang+=3");
+    });
+  });
+</script>

@@ -1,0 +1,116 @@
+---
+---
+
+<div id="dock-container" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] w-auto pointer-events-none pb-4">
+  <div class="glass-panel flex items-end gap-2 px-3 py-2 rounded-2xl pointer-events-auto" style="box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1);">
+
+    <!-- Dock Items -->
+    <div class="dock-item group relative" data-app="finder">
+      <div class="dock-icon w-12 h-12 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-xl shadow-lg border border-white/20 flex items-center justify-center transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
+      </div>
+      <div class="dock-tooltip">Files</div>
+    </div>
+
+    <div class="dock-item group relative" data-app="terminal">
+      <div class="dock-icon w-12 h-12 bg-gradient-to-tr from-gray-800 to-black rounded-xl shadow-lg border border-white/20 flex items-center justify-center transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+      </div>
+      <div class="dock-tooltip">Terminal</div>
+    </div>
+
+    <div class="dock-item group relative" data-app="metrics">
+      <div class="dock-icon w-12 h-12 bg-gradient-to-tr from-orange-500 to-yellow-400 rounded-xl shadow-lg border border-white/20 flex items-center justify-center transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+      </div>
+      <div class="dock-tooltip">Metrics</div>
+    </div>
+
+    <div class="dock-item group relative" data-app="settings">
+      <div class="dock-icon w-12 h-12 bg-gradient-to-tr from-gray-500 to-gray-300 rounded-xl shadow-lg border border-white/20 flex items-center justify-center transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+      </div>
+      <div class="dock-tooltip">Settings</div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  @reference "../styles/global.css";
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .dock-item {
+    cursor: pointer;
+    transform-origin: bottom center;
+  }
+
+  .dock-tooltip {
+    @apply absolute left-1/2 -translate-x-1/2 px-2 py-1 bg-black/80 text-white text-xs rounded opacity-0 pointer-events-none transition-opacity duration-200;
+    top: -2.5rem; /* Equivalent to -top-10 */
+  }
+
+  .dock-item:hover .dock-tooltip {
+    @apply opacity-100;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const dockItems = document.querySelectorAll('.dock-item');
+    const dockIcons = document.querySelectorAll('.dock-icon');
+    const maxScale = 1.6;
+    const neighborScale = 1.3;
+
+    // Magnification effect
+    dockItems.forEach((item, index) => {
+      item.addEventListener('mousemove', (e) => {
+        // Reset all first to create a baseline
+        gsap.to(dockIcons, { scale: 1, duration: 0.2 });
+
+        // Scale the hovered item
+        gsap.to(dockIcons[index], { scale: maxScale, duration: 0.2, ease: "power2.out" });
+
+        // Scale neighbors
+        if (index > 0) {
+          gsap.to(dockIcons[index - 1], { scale: neighborScale, duration: 0.2, ease: "power2.out" });
+        }
+        if (index < dockItems.length - 1) {
+          gsap.to(dockIcons[index + 1], { scale: neighborScale, duration: 0.2, ease: "power2.out" });
+        }
+      });
+
+      item.addEventListener('mouseleave', () => {
+        gsap.to(dockIcons, { scale: 1, duration: 0.3, ease: "power2.out" });
+      });
+
+      // Click bounce animation
+      item.addEventListener('click', () => {
+        const icon = dockIcons[index];
+        gsap.fromTo(icon,
+          { y: 0 },
+          { y: -20, duration: 0.3, yoyo: true, repeat: 1, ease: "power1.inOut" }
+        );
+
+        // Dispatch custom event to open window
+        const appId = item.getAttribute('data-app');
+        if (appId) {
+          window.dispatchEvent(new CustomEvent('open-app', { detail: { appId } }));
+        }
+      });
+    });
+
+    // Reset when leaving the whole dock container area
+    const dockContainer = document.querySelector('.glass-panel');
+    dockContainer.addEventListener('mouseleave', () => {
+      gsap.to(dockIcons, { scale: 1, duration: 0.3, ease: "power2.out" });
+    });
+  });
+</script>
