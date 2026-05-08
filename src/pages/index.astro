@@ -1,48 +1,55 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+import { WebOS } from '../components/os/WebOS';
+import '../styles/global.css';
+
+// Fetch all collections
+const memories = await getCollection('memories');
+const motivation = await getCollection('motivation');
+const accomplishments = await getCollection('accomplishments');
+const awards = await getCollection('awards');
+const honnies = await getCollection('honnies');
+const about = await getCollection('about');
+const innovations = await getCollection('innovations');
+const future = await getCollection('future');
+
+// Helper to bundle all entries for the Timeline
+const allEntries = [
+  ...memories.map(e => ({ ...e, collection: 'memories' })),
+  ...motivation.map(e => ({ ...e, collection: 'motivation' })),
+  ...accomplishments.map(e => ({ ...e, collection: 'accomplishments' })),
+  ...awards.map(e => ({ ...e, collection: 'awards' })),
+  ...honnies.map(e => ({ ...e, collection: 'honnies' })),
+  ...about.map(e => ({ ...e, collection: 'about' })),
+  ...innovations.map(e => ({ ...e, collection: 'innovations' })),
+  ...future.map(e => ({ ...e, collection: 'future' })),
+];
+
+const collections = {
+  memories,
+  motivation,
+  accomplishments,
+  awards,
+  honnies,
+  about,
+  innovations,
+  future,
+  allEntries,
+};
 ---
 
-<Layout>
-  <main
-    class="flex flex-col items-center justify-center min-h-screen bg-slate-950 text-white font-sans"
-  >
-    <!-- The Brand Name -->
-    <h1
-      id="brand"
-      class="text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-linear-to-br from-white to-slate-500"
-    >
-      PIDEA
-    </h1>
-
-    <!-- The Slogan -->
-    <p
-      id="slogan"
-      class="mt-4 text-xl text-slate-400 font-light tracking-[0.2em] uppercase"
-    >
-      Innovation is the future
-    </p>
-  </main>
-</Layout>
-
-<script>
-  import { gsap } from "gsap";
-
-  // Visually perfect entrance animation
-  const tl = gsap.timeline();
-
-  tl.from("#brand", {
-    y: 50,
-    opacity: 0,
-    duration: 1.5,
-    ease: "expo.out",
-  }).from(
-    "#slogan",
-    {
-      opacity: 0,
-      letterSpacing: "0em",
-      duration: 2,
-      ease: "power2.out",
-    },
-    "-=0.5",
-  );
-</script>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/PIDEA/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>MindOS | Neural Hub</title>
+    <!-- Load Three.js globally for Vanta -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  </head>
+  <body>
+    <!-- Client:only directive is crucial for React apps that use browser APIs (window, etc) -->
+    <WebOS client:only="react" collections={collections} />
+  </body>
+</html>

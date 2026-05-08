@@ -1,1 +1,60 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-base-100: #0a0e17;
+  --color-base-200: #121826;
+  --color-base-300: #1a2333;
+  --color-cyan-glow: #00f0ff;
+  --color-magenta-glow: #ff00ff;
+
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-base-200/40 backdrop-blur-md border border-white/10 shadow-[0_4px_30px_rgba(0,240,255,0.1)];
+  }
+
+  .glass-panel-active {
+    @apply bg-base-200/60 backdrop-blur-xl border border-cyan-glow/30 shadow-[0_0_20px_rgba(0,240,255,0.2)];
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px var(--color-cyan-glow);
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--color-base-100);
+  color: white;
+  font-family: var(--font-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Custom Scrollbar for inner windows */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.6);
+}
