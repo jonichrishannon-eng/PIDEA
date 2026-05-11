@@ -12,7 +12,9 @@ import {
   Rocket,
   Clock,
   Settings,
-  Palette
+  Palette,
+  ShoppingCart,
+  Rss
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -22,11 +24,12 @@ const apps = [
   { id: 'motivation', title: 'Motivation', icon: Target, color: 'text-red-400' },
   { id: 'accomplishments', title: 'Accomplishments', icon: Trophy, color: 'text-yellow-400' },
   { id: 'awards', title: 'Awards', icon: Award, color: 'text-amber-300' },
-  { id: 'honnies', title: 'Honnies', icon: Heart, color: 'text-pink-400' },
   { id: 'about', title: 'About Me', icon: User, color: 'text-blue-400' },
   { id: 'innovations', title: 'Innovations', icon: Lightbulb, color: 'text-emerald-400' },
   { id: 'future', title: 'Future Plans', icon: Rocket, color: 'text-purple-400' },
   { id: 'timeline', title: 'Timeline', icon: Clock, color: 'text-orange-400', isSpecial: true },
+  { id: 'rss', title: 'RSS Reader', icon: Rss, color: 'text-orange-500', isSpecial: true },
+  { id: 'store', title: 'Nexus Store', icon: ShoppingCart, color: 'text-blue-500', isSpecial: true },
   { id: 'customization', title: 'Customization', icon: Palette, color: 'text-indigo-400', isSpecial: true },
   { id: 'settings', title: 'Settings', icon: Settings, color: 'text-gray-400', isSpecial: true },
 ];

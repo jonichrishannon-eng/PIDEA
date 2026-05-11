@@ -3,10 +3,12 @@ import { BackgroundManager } from './BackgroundManager';
 import { TopBar } from './TopBar';
 import { Dock } from './Dock';
 import { WindowManager } from './WindowManager';
+import { BootSequence } from './BootSequence';
 
 export const WebOS: React.FC<{ collections: any }> = ({ collections }) => {
   return (
-    <div className="w-screen h-screen overflow-hidden text-white font-sans selection:bg-cyan-glow/30 selection:text-white">
+    <div className="w-screen h-screen overflow-hidden text-white font-sans selection:bg-cyan-glow/30 selection:text-white relative">
+      <BootSequence />
       <BackgroundManager />
       <div className="relative z-10 w-full h-full flex flex-col pointer-events-none">
         <div className="pointer-events-auto">
