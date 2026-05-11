@@ -8,6 +8,8 @@ import { twMerge } from 'tailwind-merge';
 import { ContentApp } from '../apps/ContentApp';
 import { CustomizationApp } from '../apps/CustomizationApp';
 import { TimelineApp } from '../apps/TimelineApp';
+import { StoreApp } from '../apps/StoreApp';
+import { RSSApp } from '../apps/RSSApp';
 
 // We receive global props passed from Astro down to the WindowManager
 // so it can pass them to the respective apps.
@@ -43,6 +45,10 @@ const Window: React.FC<{ window: AppWindow, collections: any }> = ({ window, col
         return <CustomizationApp />;
       case 'timeline':
         return <TimelineApp entries={collections.allEntries} />;
+      case 'store':
+        return <StoreApp />;
+      case 'rss':
+        return <RSSApp />;
       case 'settings':
         return (
           <div className="p-8 text-center text-white/50">
