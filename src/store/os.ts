@@ -90,7 +90,7 @@ export const useOSStore = create<OSState>()(
       name: 'mindos-storage', // name of the item in the storage (must be unique)
       partialize: (state) => ({
         activeBackground: state.activeBackground,
-        hasBooted: state.hasBooted
+        // intentionally excluding hasBooted so the animation plays on every hard refresh
       }), // only save specific fields
     }
   )
