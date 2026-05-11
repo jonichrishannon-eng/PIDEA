@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Rss, Plus, ExternalLink, RefreshCw, Loader2 } from 'lucide-react';
+import { Rss, Plus, ExternalLink, RefreshCw, Loader2, Trash2 } from 'lucide-react';
 
 interface FeedItem {
   title: string;
@@ -30,6 +30,16 @@ export const RSSApp: React.FC = () => {
       } catch (err) {
         setError('Invalid URL format');
       }
+    }
+  };
+
+  const handleRemoveFeed = (id: number, e: React.MouseEvent) => {
+    e.stopPropagation(); // prevent triggering the feed selection
+    const feedToRemove = feeds.find(f => f.id === id);
+    setFeeds(feeds.filter(feed => feed.id !== id));
+    if (feedToRemove && feedToRemove.url === selectedFeedUrl) {
+      setSelectedFeedUrl(null);
+      setArticles([]);
     }
   };
 
@@ -76,16 +86,25 @@ export const RSSApp: React.FC = () => {
 
         <div className="flex-1 overflow-y-auto p-2 space-y-1">
           {feeds.map(feed => (
-            <button
+            <div
               key={feed.id}
               onClick={() => setSelectedFeedUrl(feed.url)}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors truncate flex items-center justify-between group ${
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center justify-between group cursor-pointer ${
                 selectedFeedUrl === feed.url ? 'bg-orange-500/20 text-orange-400' : 'hover:bg-white/5 text-white/80'
               }`}
             >
-              <span className="truncate">{feed.title}</span>
-              <ExternalLink className={`w-3 h-3 ${selectedFeedUrl === feed.url ? 'text-orange-400 opacity-100' : 'text-white/30 opacity-0 group-hover:opacity-100'}`} />
-            </button>
+              <span className="truncate flex-1">{feed.title}</span>
+              <div className="flex items-center space-x-2">
+                <ExternalLink className={`w-3 h-3 ${selectedFeedUrl === feed.url ? 'text-orange-400 opacity-100' : 'text-white/30 opacity-0 group-hover:opacity-100'}`} />
+                <button
+                  onClick={(e) => handleRemoveFeed(feed.id, e)}
+                  className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-500/20 hover:text-red-400 rounded transition-all"
+                  title="Remove Feed"
+                >
+                  <Trash2 className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
           ))}
         </div>
 

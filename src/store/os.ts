@@ -92,6 +92,11 @@ export const useOSStore = create<OSState>()(
         activeBackground: state.activeBackground,
         // intentionally excluding hasBooted so the animation plays on every hard refresh
       }), // only save specific fields
+      merge: (persistedState: any, currentState) => ({
+        ...currentState,
+        ...persistedState,
+        hasBooted: false, // Force false on rehydration to clear old cached values
+      }),
     }
   )
 );
